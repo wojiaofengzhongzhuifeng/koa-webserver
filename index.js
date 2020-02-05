@@ -1,15 +1,10 @@
 const koa = require('koa');
-const Router = require('koa-router');
-
-const router = new Router();
-
-router.get('/', (ctx, next) => {
-  // ctx.router available
-  console.log(1);
-});
+const {router: v1BookRouter} = require('./api/v1/book');
+const {router: v2BookRouter} = require('./api/v2/book');
 
 let app = new koa();
 
-app.use(router.routes());
+app.use(v1BookRouter.routes());
+app.use(v2BookRouter.routes());
 
 app.listen(3000);
