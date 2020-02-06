@@ -7,4 +7,4 @@ router.get('/v1/book/list', (ctx, next) => {
   }
 });
 
-module.exports = {router};
+module.exports = router;

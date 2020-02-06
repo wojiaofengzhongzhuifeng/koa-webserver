@@ -1,10 +1,16 @@
 const koa = require('koa');
-const {router: v1BookRouter} = require('./api/v1/book');
-const {router: v2BookRouter} = require('./api/v2/book');
+const requireDirectory = require('require-directory');
+const Router = require('koa-router');
 
 let app = new koa();
-console.log(1);
-app.use(v1BookRouter.routes());
-app.use(v2BookRouter.routes());
+
+// bug: 未兼容 module.exports = {router] 情况
+requireDirectory(module, './api', {
+  visit: (obj)=>{
+    if(obj instanceof Router){
+      app.use(obj.routes());
+    }
+  }
+});
 
 app.listen( 3000);

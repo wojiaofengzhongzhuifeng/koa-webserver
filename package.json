@@ -14,6 +14,7 @@
     "axios": "^0.19.2",
     "koa": "^2.11.0",
     "koa-router": "^8.0.6",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "require-directory": "^2.1.1"
   }
 }
