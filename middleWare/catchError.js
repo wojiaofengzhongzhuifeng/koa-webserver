@@ -3,10 +3,13 @@ async function catchError(ctx, next) {
   try {
     await next();
   } catch (e) {
-    console.log(e);
-    ctx.body = {
-      message: '服务内部出错'
-    };
+    if (e.errorCode) {
+      ctx.body = {
+        message: e.message,
+        errorCode: e.errorCode,
+        requestUrl: `${ctx.request.method}: ${ctx.request.url}`,
+      };
+    }
   }
 }
 
