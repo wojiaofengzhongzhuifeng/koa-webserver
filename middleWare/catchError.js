@@ -1,6 +1,5 @@
 const {HttpException} = require('../core/httpException');
 async function catchError(ctx, next) {
-  console.log('catchError');
   try {
     await next();
   } catch (e) {
@@ -13,7 +12,7 @@ async function catchError(ctx, next) {
         requestUrl: `${ctx.request.method}: ${ctx.request.url}`,
       };
     } else {
-      // 未知错误
+      // 未知错误, 如未执行 super() 就会执行下面的代码
       console.log(e);
       ctx.response.status = 500;
       ctx.body = {

@@ -3,7 +3,6 @@ const router = new Router({
   prefix: '/v1/user'
 });
 const {RegisterValidator} = require('../../../app/validators/validator');
-
 router.post('/register', async (ctx, next) => {
   // 校验参数
   const v = await new RegisterValidator().validate(ctx);
