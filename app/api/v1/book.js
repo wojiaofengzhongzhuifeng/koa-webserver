@@ -4,15 +4,19 @@ const {Unauthorized} = require('../../../core/httpException');
 const {PositiveIntegerValidator} = require('../../../app/validators/validator');
 
 router.post('/:id/v1/book/list', async (ctx, next) => {
-  // 获取参数
-  console.log('请求参数 ctx.request.query', ctx.query.id);
-  console.log('路径参数 ctx.params', ctx.params);
-  console.log('post body 参数', ctx.request.body);
-  console.log('header 参数', ctx.request.headers);
-  const id = ctx.params.id;
-
   // 校验参数
   const v = await new PositiveIntegerValidator().validate(ctx);
+  console.log('所有请求数据', v);
+
+  // 获取参数
+  // 获取路径参数
+  const pathId = v.get('path.id');
+  // 获取查询参数
+  const queryId = v.get('query.id1');
+  // 获取 header 参数
+  const headerId = v.get('header.test');
+  // 获取 body 参数
+  const bodyData = v.get('body.userName');
 
 
   ctx.body = {
