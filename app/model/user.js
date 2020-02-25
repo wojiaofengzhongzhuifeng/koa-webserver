@@ -17,3 +17,7 @@ User.init({
   nickName: Sequelize.STRING,
   password: Sequelize.STRING,
 }, {sequelize});
+
+module.exports = {
+  User,
+};
