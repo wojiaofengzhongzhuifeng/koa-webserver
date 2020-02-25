@@ -13,7 +13,7 @@ async function catchError(ctx, next) {
       };
     } else {
       // 未知错误, 如未执行 super() 就会执行下面的代码
-      console.log(e);
+      console.log('throw unknown error', e);
       ctx.response.status = 500;
       ctx.body = {
         message: '服务器内部错误',

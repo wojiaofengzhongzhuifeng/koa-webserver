@@ -22,7 +22,7 @@ router.post('/register', async (ctx, next) => {
   ctx.body = {
     httpCode: 200,
     message: '注册成功',
-    error: 10001,
+    error: 0,
   };
 });
 

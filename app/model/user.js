@@ -13,7 +13,10 @@ User.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  email: Sequelize.STRING,
+  email: {
+    type: Sequelize.STRING,
+    unique: true,
+  },
   nickName: Sequelize.STRING,
   password: Sequelize.STRING,
 }, {sequelize});

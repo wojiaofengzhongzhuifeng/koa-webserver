@@ -2,6 +2,7 @@ const {
   LinValidator,
   Rule
 } = require('../../core/lin-validator-v2');
+const {User} = require('../model/user');
 
 class PositiveIntegerValidator extends LinValidator {
   constructor() {
@@ -53,6 +54,19 @@ class RegisterValidator extends LinValidator {
     // question: 为什么直接抛出错误就可以了?
     if (password !== passwordAgain) {
       throw new Error('两次输入不一致');
+    }
+  }
+
+  // 插入数据前, 需要判断邮箱是否重复
+  async validateEmail(value) {
+    const registerEmail = value.body.email;
+    const findResponse = await User.findAll({
+      where: {
+        email: registerEmail,
+      }
+    });
+    if (findResponse.length !== 0) {
+      throw new Error('邮箱已存在');
     }
   }
 }
