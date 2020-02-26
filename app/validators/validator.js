@@ -95,6 +95,12 @@ class TokenValidator extends LinValidator {
       })
     ];
   }
+
+  validateTokenExist(value) {
+    if (!value.body.type) {
+      throw new Error('请传入指定 type');
+    }
+  }
 }
 
 module.exports = {
