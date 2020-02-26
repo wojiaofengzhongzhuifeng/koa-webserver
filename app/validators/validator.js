@@ -71,7 +71,34 @@ class RegisterValidator extends LinValidator {
   }
 }
 
+// 用于校验用户的登录数据
+class TokenValidator extends LinValidator {
+  constructor() {
+    super();
+    // 校验账号
+    this.account = [
+      new Rule('isLength', '长度不符合要求', {
+        min: 4,
+        max: 32,
+      })
+    ];
+
+    /*
+    * 下面代码的意思是: 密码可传可不传, 如果传了, 必须符合大于 6 位小于 128 位的要求
+    * */
+    this.secret = [
+      new Rule('isOptional'),
+      new Rule('isLength', '长度不符合要求', {
+        min: 6,
+        max: 128,
+
+      })
+    ];
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
+  TokenValidator
 };
