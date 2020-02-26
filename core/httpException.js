@@ -35,9 +35,20 @@ class SuccessException extends HttpException {
   }
 }
 
+// 登录过程中, 账号或者密码出错
+class AuthFailed extends HttpException {
+  constructor(msg, errorCode) {
+    super();
+    this.message = msg || '授权失败';
+    this.errorCode = errorCode || 10004;
+    this.httpCode = 401;
+  }
+}
+
 module.exports = {
   Unauthorized,
   HttpException,
   ParameterException,
   SuccessException,
+  AuthFailed,
 };

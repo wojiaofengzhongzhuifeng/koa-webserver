@@ -77,7 +77,7 @@ class TokenValidator extends LinValidator {
   constructor() {
     super();
     // 校验账号
-    this.account = [
+    this.email = [
       new Rule('isLength', '长度不符合要求', {
         min: 4,
         max: 32,
@@ -87,7 +87,7 @@ class TokenValidator extends LinValidator {
     /*
     * 下面代码的意思是: 密码可传可不传, 如果传了, 必须符合大于 6 位小于 128 位的要求
     * */
-    this.secret = [
+    this.password = [
       new Rule('isOptional'),
       new Rule('isLength', '长度不符合要求', {
         min: 6,
