@@ -3,6 +3,7 @@ const {
   Rule
 } = require('../../core/lin-validator-v2');
 const {User} = require('../model/user');
+const {LOGIN_TYPE, checkTypeIsLegal} = require('../lib/enum');
 
 class PositiveIntegerValidator extends LinValidator {
   constructor() {
@@ -98,7 +99,15 @@ class TokenValidator extends LinValidator {
 
   validateTokenExist(value) {
     if (!value.body.type) {
-      throw new Error('请传入指定 type');
+      throw new Error('type 不能为空');
+    }
+  }
+
+  // 验证参数的 type 数据是否合法
+  validateTypeLegal(value) {
+    const type = value.body.type;
+    if (!(checkTypeIsLegal(LOGIN_TYPE, type))) {
+      throw new Error('type 不合法');
     }
   }
 }
