@@ -25,8 +25,19 @@ class ParameterException extends HttpException {
   }
 }
 
+// 响应成功的类
+class SuccessException extends HttpException {
+  constructor(msg, errorCode) {
+    super();
+    this.httpCode = 200;
+    this.message = msg || '请求成功';
+    this.errorCode = errorCode || 0;
+  }
+}
+
 module.exports = {
   Unauthorized,
   HttpException,
   ParameterException,
+  SuccessException,
 };

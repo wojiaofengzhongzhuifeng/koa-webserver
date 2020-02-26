@@ -6,6 +6,7 @@ const router = new Router({
 });
 const {RegisterValidator} = require('../../../app/validators/validator');
 const {User} = require('../../model/user');
+const {throwSuccess} = require('../../lib/help');
 router.post('/register', async (ctx, next) => {
   // 校验参数
   const v = await new RegisterValidator().validate(ctx);
@@ -20,12 +21,7 @@ router.post('/register', async (ctx, next) => {
   const registerResponse = await User.create(registerData);
   console.log('registerResponse', registerResponse);
 
-
-  ctx.body = {
-    httpCode: 200,
-    message: '注册成功',
-    error: 0,
-  };
+  throwSuccess();
 });
 
 module.exports = router;
