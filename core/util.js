@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const {secretKey, expiresIn} = require('../config/config');
 /***
  *
  */
@@ -40,15 +41,12 @@ const findMembers = function (instance, {
 };
 
 const generateToken = function (uid, scope) {
-  const secretKey = global.config.security.secretKey;
-  const expiresIn = global.config.security.expiresIn;
-  const token = jwt.sign({
+  return jwt.sign({
     uid,
     scope
   }, secretKey, {
     expiresIn
   });
-  return token;
 };
 
 
@@ -56,16 +54,3 @@ module.exports = {
   findMembers,
   generateToken,
 };
-
-
-// const generateToken = function (uid, scope) {
-//     const secretKey = global.config.security.secretKey
-//     const expiresIn = global.config.security.expiresIn
-//     const token = jwt.sign({
-//         uid,
-//         scope
-//     }, secretKey, {
-//         expiresIn: expiresIn
-//     })
-//     return token
-// }

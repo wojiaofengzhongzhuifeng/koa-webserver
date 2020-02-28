@@ -8,6 +8,7 @@ const {TokenValidator} = require('../../../app/validators/validator');
 const {LOGIN_TYPE} = require('../../lib/enum');
 const {User} = require('../../model/user');
 const {AuthFailed} = require('../../../core/httpException');
+const {generateToken} = require('../../../core/util');
 
 
 router.post('/', async (ctx, next) => {
