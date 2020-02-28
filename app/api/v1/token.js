@@ -21,14 +21,13 @@ router.post('/', async (ctx, next) => {
 
   switch (type) {
     case LOGIN_TYPE.havePassword:
-      const response = await handleHavePassword(account, password);
+      await handleHavePassword(account, password, ctx);
       break;
     case LOGIN_TYPE.noPassword:
       handleNoPassword();
       break;
   }
 
-  throwSuccess();
 });
 
 // 处理有密码的登录情况
@@ -38,7 +37,7 @@ router.post('/', async (ctx, next) => {
 * 2.2. 如果账号不存在, 抛出已知错误
 * 3.1. 将未加密代码与加密代码比较,如果一致, 说明密码正确,抛出正确错误; 否则抛出已知错误
 * */
-async function handleHavePassword(account, password) {
+async function handleHavePassword(account, password, ctx) {
   const accountResponse = await User.findOne({
     where: {
       email: account,
@@ -51,7 +50,9 @@ async function handleHavePassword(account, password) {
     const passwordCompareResult = bcrypt.compareSync(password, dbPassword);
 
     if (passwordCompareResult) {
-      throwSuccess();
+      // 登陆成功, 生成 jwt 返回给响应内容
+      const token = generateToken(accountResponse.id, 123);
+      ctx.body = {token};
     } else {
       throw new AuthFailed('密码错误');
     }
