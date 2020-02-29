@@ -2,8 +2,9 @@ const Router = require('koa-router');
 const router = new Router();
 const {Unauthorized} = require('../../../core/httpException');
 const {PositiveIntegerValidator} = require('../../../app/validators/validator');
+const auth = require('../../../middleWare/auth');
 
-router.post('/:id/v1/book/list', async (ctx, next) => {
+router.post('/:id/v1/book/list', auth, async (ctx, next) => {
   // 校验参数
   const v = await new PositiveIntegerValidator().validate(ctx);
   console.log('所有请求数据', v);
