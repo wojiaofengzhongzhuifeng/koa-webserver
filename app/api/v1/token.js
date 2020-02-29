@@ -37,7 +37,7 @@ router.post('/', async (ctx, next) => {
 * 2.2. 如果账号不存在, 抛出已知错误
 * 3.1. 将未加密代码与加密代码比较,如果一致, 说明密码正确,抛出正确错误; 否则抛出已知错误
 * */
-async function handleHavePassword(account, password, ctx) {
+async function handleHavePassword(account, password) {
   const accountResponse = await User.findOne({
     where: {
       email: account,
@@ -52,7 +52,7 @@ async function handleHavePassword(account, password, ctx) {
     if (passwordCompareResult) {
       // 登陆成功, 生成 jwt 返回给响应内容
       const token = generateToken(accountResponse.id, 123);
-      ctx.body = {token};
+      throwSuccess({data: token});
     } else {
       throw new AuthFailed('密码错误');
     }

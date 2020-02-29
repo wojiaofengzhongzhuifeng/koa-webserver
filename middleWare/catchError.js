@@ -10,6 +10,7 @@ async function catchError(ctx, next) {
         message: e.message,
         errorCode: e.errorCode,
         requestUrl: `${ctx.request.method}: ${ctx.request.url}`,
+        data: e.data
       };
     } else {
       // 未知错误, 如未执行 super() 就会执行下面的代码

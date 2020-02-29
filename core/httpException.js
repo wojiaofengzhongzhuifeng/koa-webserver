@@ -27,11 +27,20 @@ class ParameterException extends HttpException {
 
 // 响应成功的类
 class SuccessException extends HttpException {
-  constructor(msg, errorCode) {
+  constructor(obj) {
     super();
-    this.httpCode = 200;
-    this.message = msg || '请求成功';
-    this.errorCode = errorCode || 0;
+    if (!obj) {
+      this.httpCode = 200;
+      this.message = '请求成功';
+      this.errorCode = 0;
+      this.data = null;
+    } else {
+      const {msg, errorCode, data} = obj;
+      this.httpCode = 200;
+      this.message = msg || '请求成功';
+      this.errorCode = errorCode || 0;
+      this.data = data;
+    }
   }
 }
 
