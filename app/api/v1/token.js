@@ -9,7 +9,7 @@ const {LOGIN_TYPE} = require('../../lib/enum');
 const {User} = require('../../model/user');
 const {AuthFailed} = require('../../../core/httpException');
 const {generateToken} = require('../../../core/util');
-
+const {AUTH_SCOPE} = require('../../../middleWare/auth');
 
 router.post('/', async (ctx, next) => {
   // 校验参数
@@ -51,7 +51,7 @@ async function handleHavePassword(account, password) {
 
     if (passwordCompareResult) {
       // 登陆成功, 生成 jwt 返回给响应内容
-      const token = generateToken(accountResponse.id, 123);
+      const token = generateToken(accountResponse.id, AUTH_SCOPE.USER);
       throwSuccess({data: token});
     } else {
       throw new AuthFailed('密码错误');

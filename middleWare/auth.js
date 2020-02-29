@@ -10,9 +10,15 @@ const auth = (ctx, next) => {
   next();
 };
 
+const AUTH_SCOPE = {
+  USER: 8,
+};
+
 
 class Auth {
-  constructor() {
+  constructor(level) {
+    // 接口权限数据
+    this.level = level || 1;
   }
 
   get method() {
@@ -22,7 +28,15 @@ class Auth {
         throw new Forbidden();
       }
       // 将 token 传入 verifyToken, 如果 token 出现错误, 抛出相应的错误, 如果没有错误,那么执行下面的代码
-      verifyToken(token);
+      const scopeData = verifyToken(token).scope;
+
+      // 判断接口权限
+      if (Number(scopeData) < Number(this.level)) {
+        throw new Forbidden({
+          message: '身份权限不足'
+        });
+      }
+
       next();
     };
   }
@@ -31,4 +45,5 @@ class Auth {
 module.exports = {
   Auth,
   auth,
+  AUTH_SCOPE,
 };
