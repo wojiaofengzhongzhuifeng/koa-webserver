@@ -54,10 +54,30 @@ class AuthFailed extends HttpException {
   }
 }
 
+// token 不匹配的错误类
+class Forbidden extends HttpException {
+  constructor(obj) {
+    super();
+    if (!obj) {
+      this.httpCode = 403;
+      this.message = '权限不足';
+      this.errorCode = 10006;
+      this.data = null;
+    } else {
+      const {message, errorCode, data} = obj;
+      this.httpCode = 403;
+      this.message = message || '权限不足';
+      this.errorCode = errorCode || 10006;
+      this.data = data;
+    }
+  }
+}
+
 module.exports = {
   Unauthorized,
   HttpException,
   ParameterException,
   SuccessException,
   AuthFailed,
+  Forbidden
 };

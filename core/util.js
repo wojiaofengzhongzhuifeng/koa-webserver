@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
+const {TokenExpiredError, SuccessException} = require('jsonwebtoken');
 const {secretKey, expiresIn} = require('../config/config');
+const {Forbidden} = require('../core/httpException');
 /***
  *
  */
@@ -49,8 +51,25 @@ const generateToken = function (uid, scope) {
   });
 };
 
+const verifyToken = function (token) {
+  try {
+    const result = jwt.verify(token, secretKey);
+    console.log('result', result);
+    return result;
+    // throw new SuccessException();
+  } catch (e) {
+    console.log('e', e);
+    if (e instanceof TokenExpiredError) {
+      throw new Forbidden({
+        message: 'token 过期'
+      });
+    }
+  }
+};
+
 
 module.exports = {
   findMembers,
   generateToken,
+  verifyToken,
 };
