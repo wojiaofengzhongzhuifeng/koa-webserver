@@ -1,3 +1,4 @@
+const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const Router = require('koa-router');
 const router = new Router({
@@ -10,6 +11,7 @@ const {User} = require('../../model/user');
 const {AuthFailed} = require('../../../core/httpException');
 const {generateToken} = require('../../../core/util');
 const {AUTH_SCOPE} = require('../../../middleWare/auth');
+const config = require('../../../config/config');
 
 router.post('/', async (ctx, next) => {
   // 校验参数
@@ -23,8 +25,8 @@ router.post('/', async (ctx, next) => {
     case LOGIN_TYPE.havePassword:
       await handleHavePassword(account, password, ctx);
       break;
-    case LOGIN_TYPE.noPassword:
-      handleNoPassword();
+    case LOGIN_TYPE.miniProgram:
+      handleMiniProgram(account);
       break;
   }
 
@@ -59,8 +61,13 @@ async function handleHavePassword(account, password) {
   }
 }
 
-// 处理没有密码登录情况
-function handleNoPassword() {
+// 处理微信小程序的登录函数
+async function handleMiniProgram(account) {
+  const wxCode2SessionUrl = `https://api.weixin.qq.com/sns/jscode2session?appid=${config.wx.appId}&secret=${config.wx.secretId}&js_code=${account}&grant_type=authorization_code`;
+  const wxGetOpenId = await axios({
+    url: wxCode2SessionUrl,
+  });
+  console.log(wxGetOpenId);
 }
 
 module.exports = router;

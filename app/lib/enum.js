@@ -1,5 +1,5 @@
 // 指定登录的类型
-const LOGIN_TYPE = {'havePassword': 100, 'noPassword': 101};
+const LOGIN_TYPE = {'havePassword': 100, 'miniProgram': 101};
 
 function checkTypeIsLegal(obj, number) {
   let valueArray = [];
