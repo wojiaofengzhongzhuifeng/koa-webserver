@@ -70,6 +70,40 @@ async function handleMiniProgram(account) {
   if (wxGetOpenIdResponse.data.errcode) {
     throw new AuthFailed(`微信校验失败: ${wxGetOpenIdResponse.data.errmsg}`);
   }
+
+  const openId = wxGetOpenIdResponse.data.openid;
+  // 数据库搜索 openid 对应数据
+  const accountResponse = await User.findOne({
+    where: {
+      openId: openId,
+    }
+  });
+
+  if (!accountResponse) {
+    // 用户第一次进入小程序, 需要根据 openId 保存一条数据
+    const userData = {
+      openId: openId,
+      email: openId,
+      nickName: openId,
+    };
+    const addUserResponse = await User.create(userData);
+    const token = generateToken(addUserResponse.id, AUTH_SCOPE.USER);
+    if (addUserResponse) {
+      throwSuccess({
+        message: '注册用户成功',
+        data: token,
+      });
+    }
+  } else {
+    // 用户第二次进入小程序
+    console.log('用户第二次进入小程序');
+    const token = generateToken(accountResponse.id, AUTH_SCOPE.USER);
+    throwSuccess({
+      message: '获取用户成功',
+      data: token,
+    });
+  }
+
   throwSuccess();
 }
 

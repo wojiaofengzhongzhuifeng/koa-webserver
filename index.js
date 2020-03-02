@@ -8,6 +8,9 @@ let app = new koa();
 // 加载 user model
 require('./app/model/user');
 
+// 新增列数据
+// require('./app/model/user');
+
 app.use(catchError);
 app.use(bodyParser());
 initCore(app);

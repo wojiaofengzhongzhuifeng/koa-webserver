@@ -28,6 +28,8 @@ User.init({
       this.setDataValue('password', encryptPassword);
     }
   },
+  // 存放小程序
+  openId: Sequelize.STRING
 }, {sequelize});
 
 module.exports = {

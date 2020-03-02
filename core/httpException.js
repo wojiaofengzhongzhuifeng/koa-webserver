@@ -35,9 +35,9 @@ class SuccessException extends HttpException {
       this.errorCode = 0;
       this.data = null;
     } else {
-      const {msg, errorCode, data} = obj;
+      const {message, errorCode, data} = obj;
       this.httpCode = 200;
-      this.message = msg || '请求成功';
+      this.message = message || '请求成功';
       this.errorCode = errorCode || 0;
       this.data = data;
     }
