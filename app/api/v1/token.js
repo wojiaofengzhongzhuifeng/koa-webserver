@@ -49,7 +49,7 @@ async function handleHavePassword(account, password) {
     throw new AuthFailed('账号错误');
   } else {
     const dbPassword = accountResponse.password;
-    const passwordCompareResult = bcrypt.compareSync(password, dbPassword);
+    const passwordCompareResult = bcrypt.compareSync(String(password), dbPassword);
 
     if (passwordCompareResult) {
       // 登陆成功, 生成 jwt 返回给响应内容
@@ -103,8 +103,6 @@ async function handleMiniProgram(account) {
       data: token,
     });
   }
-
-  throwSuccess();
 }
 
 module.exports = router;
