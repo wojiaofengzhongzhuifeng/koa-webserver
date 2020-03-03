@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const Router = require('koa-router');
@@ -5,7 +6,7 @@ const router = new Router({
   prefix: '/v1/token'
 });
 const {throwSuccess} = require('../../lib/help');
-const {TokenValidator} = require('../../../app/validators/validator');
+const {TokenValidator, VerifyTokenValidator} = require('../../../app/validators/validator');
 const {LOGIN_TYPE} = require('../../lib/enum');
 const {User} = require('../../model/user');
 const {AuthFailed} = require('../../../core/httpException');
@@ -30,6 +31,20 @@ router.post('/', async (ctx, next) => {
       break;
   }
 
+});
+
+// 判断 token 是否合法
+router.post('/verify', async (ctx, next) => {
+  const v = await new VerifyTokenValidator().validate(ctx);
+  const token = v.get('body.token');
+  try {
+    jwt.verify(token, config.secretKey);
+    throwSuccess({
+      message: '该 token 合法'
+    });
+  } catch (e) {
+    throw new AuthFailed('token 不合法');
+  }
 });
 
 // 处理有密码的登录情况

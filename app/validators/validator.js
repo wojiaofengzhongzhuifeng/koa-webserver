@@ -112,8 +112,18 @@ class TokenValidator extends LinValidator {
   }
 }
 
+class VerifyTokenValidator extends LinValidator {
+  constructor() {
+    super();
+    this.token = [
+      new Rule('isLength', 'token 必填', {min: 0})
+    ];
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
-  TokenValidator
+  TokenValidator,
+  VerifyTokenValidator
 };
