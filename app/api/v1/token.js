@@ -17,7 +17,7 @@ router.post('/', async (ctx, next) => {
   // 校验参数
   const v = await new TokenValidator().validate(ctx);
 
-  const type = v.get('body.type');
+  const type = Number(v.get('body.type'));
   const account = v.get('body.email');
   const password = v.get('body.password');
 
@@ -47,17 +47,18 @@ async function handleHavePassword(account, password) {
   });
   if (!accountResponse) {
     throw new AuthFailed('账号错误');
+  }
+  if (!password) {
+    throw new AuthFailed('密码未填');
+  }
+  const dbPassword = accountResponse.password;
+  const passwordCompareResult = bcrypt.compareSync(String(password), dbPassword);
+  if (passwordCompareResult) {
+    // 登陆成功, 生成 jwt 返回给响应内容
+    const token = generateToken(accountResponse.id, AUTH_SCOPE.USER);
+    throwSuccess({data: token});
   } else {
-    const dbPassword = accountResponse.password;
-    const passwordCompareResult = bcrypt.compareSync(String(password), dbPassword);
-
-    if (passwordCompareResult) {
-      // 登陆成功, 生成 jwt 返回给响应内容
-      const token = generateToken(accountResponse.id, AUTH_SCOPE.USER);
-      throwSuccess({data: token});
-    } else {
-      throw new AuthFailed('密码错误');
-    }
+    throw new AuthFailed('密码错误');
   }
 }
 
