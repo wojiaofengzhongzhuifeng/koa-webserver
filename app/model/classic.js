@@ -3,10 +3,7 @@ const {sequelize} = require('../../core/db');
 
 const {Model, Sequelize} = require('sequelize');
 
-class Movie extends Model {
-}
-
-Movie.init({
+const baseField = {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -20,8 +17,26 @@ Movie.init({
   },
   picUrl: Sequelize.STRING,
   publishDate: Sequelize.DATEONLY,
-}, {sequelize, tableName: 'Movie'});
+};
+
+class Movie extends Model {
+}
+
+class Music extends Model {
+}
+
+class Sentence extends Model {
+
+}
+
+Movie.init(baseField, {sequelize, tableName: 'Movie'});
+
+Sentence.init(baseField, {sequelize, tableName: 'Sentence'});
+
+Music.init({...baseField, playUrl: Sequelize.STRING}, {sequelize, tableName: 'Music'});
 
 module.exports = {
   Movie,
+  Music,
+  Sentence,
 };
