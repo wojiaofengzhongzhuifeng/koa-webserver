@@ -10,6 +10,7 @@ require('./app/model/user');
 
 // 新增列数据
 // require('./app/model/user');
+require('./app/model/classic');
 
 app.use(catchError);
 app.use(bodyParser());
