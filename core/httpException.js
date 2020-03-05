@@ -73,11 +73,31 @@ class Forbidden extends HttpException {
   }
 }
 
+// 抛出函数中未处理
+class Unhandle extends HttpException {
+  constructor(obj) {
+    super();
+    if (!obj) {
+      this.httpCode = 501;
+      this.message = '程序内部未处理';
+      this.errorCode = 10007;
+      this.data = null;
+    } else {
+      const {message, errorCode, data} = obj;
+      this.httpCode = 501;
+      this.message = message || '程序内部未处理';
+      this.errorCode = errorCode || 10007;
+      this.data = data;
+    }
+  }
+}
+
 module.exports = {
   Unauthorized,
   HttpException,
   ParameterException,
   SuccessException,
   AuthFailed,
-  Forbidden
+  Forbidden,
+  Unhandle
 };

@@ -125,6 +125,12 @@ class ClassicValidator extends LinValidator {
   constructor() {
     super();
   }
+
+  validateData(value) {
+    if (!value.body.data) {
+      throw new Error('data必传');
+    }
+  }
 }
 
 module.exports = {

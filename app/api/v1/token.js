@@ -9,7 +9,7 @@ const {throwSuccess} = require('../../lib/help');
 const {TokenValidator, VerifyTokenValidator} = require('../../../app/validators/validator');
 const {LOGIN_TYPE} = require('../../lib/enum');
 const {User} = require('../../model/user');
-const {AuthFailed} = require('../../../core/httpException');
+const {AuthFailed, Unhandle} = require('../../../core/httpException');
 const {generateToken} = require('../../../core/util');
 const {AUTH_SCOPE} = require('../../../middleWare/auth');
 const config = require('../../../config/config');
@@ -29,6 +29,8 @@ router.post('/', async (ctx, next) => {
     case LOGIN_TYPE.miniProgram:
       await handleMiniProgram(account);
       break;
+    default:
+      throw new Unhandle();
   }
 
 });
