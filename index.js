@@ -11,6 +11,7 @@ require('./app/model/user');
 // 新增列数据
 // require('./app/model/user');
 require('./app/model/classic');
+require('./app/model/flow');
 
 app.use(catchError);
 app.use(bodyParser());
