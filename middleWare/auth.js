@@ -22,7 +22,7 @@ class Auth {
   }
 
   get method() {
-    return (ctx, next) => {
+    return async (ctx, next) => {
       let token = ctx.header.token || ctx.request.body.token || '';
       let scopeData;
 
@@ -45,7 +45,7 @@ class Auth {
         });
       }
 
-      next();
+      await next();
     };
   }
 }
