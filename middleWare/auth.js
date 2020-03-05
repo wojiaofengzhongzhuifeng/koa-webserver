@@ -24,11 +24,19 @@ class Auth {
   get method() {
     return (ctx, next) => {
       let token = ctx.header.token || ctx.request.body.token || '';
+      let scopeData;
+
       if (!token) {
         throw new Forbidden();
       }
-      // 将 token 传入 verifyToken, 如果 token 出现错误, 抛出相应的错误, 如果没有错误,那么执行下面的代码
-      const scopeData = verifyToken(token).scope;
+      // 将 token 传入 verifyToken 函数, 如果 token 出现错误, 抛出错误, 错误信息是 「token 错误」
+      try {
+        scopeData = verifyToken(token).scope;
+      } catch (e) {
+        throw new Forbidden({
+          message: '传入 token 错误'
+        });
+      }
 
       // 判断接口权限
       if (Number(scopeData) < Number(this.level)) {
