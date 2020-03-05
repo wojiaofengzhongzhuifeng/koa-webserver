@@ -121,9 +121,16 @@ class VerifyTokenValidator extends LinValidator {
   }
 }
 
+class ClassicValidator extends LinValidator {
+  constructor() {
+    super();
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
   TokenValidator,
-  VerifyTokenValidator
+  VerifyTokenValidator,
+  ClassicValidator
 };
