@@ -20,13 +20,22 @@ const baseField = {
 };
 
 class Movie extends Model {
+  static addData(postData) {
+    Movie.create(postData);
+  }
 }
 
 class Music extends Model {
+  static addData(postData) {
+    console.log('postData', postData);
+    Music.create(postData);
+  }
 }
 
 class Sentence extends Model {
-
+  static addData(postData) {
+    Sentence.create(postData);
+  }
 }
 
 Movie.init(baseField, {sequelize, tableName: 'Movie'});

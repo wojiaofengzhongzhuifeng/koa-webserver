@@ -7,6 +7,7 @@ const {ClassicValidator} = require('../../../app/validators/validator');
 const {Auth, auth} = require('../../../middleWare/auth');
 const {CLASSIC_TYPE} = require('../../lib/enum');
 const {Unhandle} = require('../../../core/httpException');
+const {Movie, Music, Sentence} = require('../../model/classic');
 
 // 新增一个或者多个 movie, music, sentence 数据
 router.post('/', new Auth(7).method, async (ctx, next) => {
@@ -20,15 +21,18 @@ router.post('/', new Auth(7).method, async (ctx, next) => {
 
 function handleAddClassicData(classicData) {
   classicData.forEach((postData) => {
-    switch (Number(postData.type)) {
+    let type = Number(postData.type);
+    let dbData = postData;
+
+    switch (type) {
       case CLASSIC_TYPE.movie:
-        addMovie();
+        addMovie(dbData);
         break;
       case CLASSIC_TYPE.music:
-        addMusic();
+        addMusic(dbData);
         break;
       case CLASSIC_TYPE.sentence:
-        addSentence();
+        addSentence(dbData);
         break;
       default:
         throw new Unhandle();
@@ -36,16 +40,16 @@ function handleAddClassicData(classicData) {
   });
 }
 
-function addMovie() {
-
+function addMovie(dbData) {
+  Movie.addData({...dbData, test: 123321});
 }
 
-function addMusic() {
-
+function addMusic(dbData) {
+  Music.addData({...dbData, test: 123321});
 }
 
-function addSentence() {
-
+function addSentence(dbData) {
+  Sentence.addData({...dbData, test: 123321});
 }
 
 module.exports = router;
