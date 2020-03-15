@@ -23,6 +23,15 @@ class Movie extends Model {
   static addData(postData) {
     Movie.create(postData);
   }
+
+  static async getData(id) {
+    const result = await Movie.findOne({
+      where: {
+        id: id,
+      }
+    });
+    return result;
+  }
 }
 
 class Music extends Model {
@@ -30,11 +39,29 @@ class Music extends Model {
     console.log('postData', postData);
     Music.create(postData);
   }
+
+  static async getData(id) {
+    const result = await Music.findOne({
+      where: {
+        id: id,
+      }
+    });
+    return result;
+  }
 }
 
 class Sentence extends Model {
   static addData(postData) {
     Sentence.create(postData);
+  }
+
+  static async getData(id) {
+    const result = await Sentence.findOne({
+      where: {
+        id: id,
+      }
+    });
+    return result;
   }
 }
 

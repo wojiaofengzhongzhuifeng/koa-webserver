@@ -3,7 +3,7 @@ const {
   Rule
 } = require('../../core/lin-validator-v2');
 const {User} = require('../model/user');
-const {LOGIN_TYPE, checkTypeIsLegal} = require('../lib/enum');
+const {LOGIN_TYPE, checkTypeIsLegal, CLASSIC_TYPE} = require('../lib/enum');
 
 class PositiveIntegerValidator extends LinValidator {
   constructor() {
@@ -133,10 +133,31 @@ class ClassicValidator extends LinValidator {
   }
 }
 
+class ClassicGetValidator extends LinValidator {
+  constructor() {
+    super();
+    this.type = [
+      new Rule('isNumeric', '必须是数字')
+    ];
+    this.id = [
+      new Rule('isNumeric', '必须是数字')
+    ];
+  }
+
+  validateType(value) {
+    const type = value.path.type;
+
+    if (!(checkTypeIsLegal(CLASSIC_TYPE, type))) {
+      throw new Error('type 不合法');
+    }
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
   TokenValidator,
   VerifyTokenValidator,
-  ClassicValidator
+  ClassicValidator,
+  ClassicGetValidator
 };

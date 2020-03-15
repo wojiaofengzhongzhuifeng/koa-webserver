@@ -2,12 +2,13 @@ const Router = require('koa-router');
 const router = new Router({
   prefix: '/v1/classic'
 });
-const {Unauthorized} = require('../../../core/httpException');
-const {ClassicValidator} = require('../../../app/validators/validator');
+const {Unauthorized, NoExist} = require('../../../core/httpException');
+const {ClassicValidator, ClassicGetValidator} = require('../../../app/validators/validator');
 const {Auth, auth} = require('../../../middleWare/auth');
 const {CLASSIC_TYPE} = require('../../lib/enum');
 const {Unhandle} = require('../../../core/httpException');
 const {Movie, Music, Sentence} = require('../../model/classic');
+const {throwSuccess} = require('../../lib/help');
 
 // 新增一个或者多个 movie, music, sentence 数据
 router.post('/', new Auth(7).method, async (ctx, next) => {
@@ -17,6 +18,15 @@ router.post('/', new Auth(7).method, async (ctx, next) => {
   const classicData = v.get('body.data');
 
   handleAddClassicData(classicData);
+});
+
+router.get('/:type/:id', new Auth(7).method, async (ctx, next) => {
+  const v = await new ClassicGetValidator().validate(ctx);
+
+  const type = v.get('path.type');
+  const id = v.get('path.id');
+
+  await handleGetTypeData(type, id);
 });
 
 function handleAddClassicData(classicData) {
@@ -38,6 +48,47 @@ function handleAddClassicData(classicData) {
         throw new Unhandle();
     }
   });
+}
+
+async function handleGetTypeData(type, id) {
+  let result;
+  switch (Number(type)) {
+    case CLASSIC_TYPE.music:
+      result = await Music.getData(id);
+      if (result) {
+        throwSuccess({
+          message: '获取成功',
+          data: result
+        });
+      } else {
+        throw new NoExist();
+      }
+      break;
+    case CLASSIC_TYPE.movie:
+      result = await Movie.getData(id);
+      if (result) {
+        throwSuccess({
+          message: '获取成功',
+          data: result
+        });
+      } else {
+        throw new NoExist();
+      }
+      break;
+    case CLASSIC_TYPE.sentence:
+      result = await Sentence.getData(id);
+      if (result) {
+        throwSuccess({
+          message: '获取成功',
+          data: result
+        });
+      } else {
+        throw new NoExist();
+      }
+      break;
+    default:
+      throw new Unhandle();
+  }
 }
 
 function addMovie(dbData) {

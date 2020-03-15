@@ -92,6 +92,25 @@ class Unhandle extends HttpException {
   }
 }
 
+// 数据库没有这个数据
+class NoExist extends HttpException {
+  constructor(obj) {
+    super();
+    if (!obj) {
+      this.httpCode = 200;
+      this.message = '数据库未保存此数据';
+      this.errorCode = 10008;
+      this.data = null;
+    } else {
+      const {message, errorCode, data} = obj;
+      this.httpCode = 200;
+      this.message = message || '数据库未保存此数据';
+      this.errorCode = errorCode || 10008;
+      this.data = data;
+    }
+  }
+}
+
 module.exports = {
   Unauthorized,
   HttpException,
@@ -99,5 +118,6 @@ module.exports = {
   SuccessException,
   AuthFailed,
   Forbidden,
-  Unhandle
+  Unhandle,
+  NoExist
 };
