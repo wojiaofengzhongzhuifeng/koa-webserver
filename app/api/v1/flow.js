@@ -14,10 +14,14 @@ const {Art} = require('../../model/art');
 router.get('/latest', new Auth().method, async (ctx, next) => {
   const v = await new GetLatestFlowValidator().validate(ctx);
   const result = await Art.getLatestArt();
-  throwSuccess({
-    message: '获取数据成功',
-    data: result,
-  });
+  if (result) {
+    throwSuccess({
+      message: '获取数据成功',
+      data: result,
+    });
+  } else {
+    throw new global.httpException.NoExist();
+  }
 });
 
 router.post('/', new Auth().method, async (ctx, next) => {
