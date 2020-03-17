@@ -27,7 +27,7 @@ router.post('/', async (ctx, next) => {
       await handleHavePassword(account, password, ctx);
       break;
     case LOGIN_TYPE.miniProgram:
-      await handleMiniProgram(account);
+      handleMiniProgram(account);
       break;
     default:
       throw new Unhandle();
@@ -82,7 +82,7 @@ async function handleHavePassword(account, password) {
 // 处理微信小程序的登录函数
 async function handleMiniProgram(account) {
   const wxCode2SessionUrl = `https://api.weixin.qq.com/sns/jscode2session?appid=${config.wx.appId}&secret=${config.wx.secretId}&js_code=${account}&grant_type=authorization_code`;
-  const wxGetOpenIdResponse = await axios({
+  const wxGetOpenId = await axios({
     url: wxCode2SessionUrl,
   });
   if (wxGetOpenIdResponse.data.errcode) {
