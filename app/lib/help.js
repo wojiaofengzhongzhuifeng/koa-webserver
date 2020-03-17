@@ -1,7 +1,5 @@
-const {SuccessException} = require('../../core/httpException');
-
 const throwSuccess = (obj) => {
-  throw new SuccessException(obj);
+  throw new global.httpException.SuccessException(obj);
 };
 
 module.exports = {throwSuccess};
