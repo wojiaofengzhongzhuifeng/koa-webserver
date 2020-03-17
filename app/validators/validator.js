@@ -159,6 +159,28 @@ class GetLatestFlowValidator extends LinValidator {
   }
 }
 
+class PostLatestFlowValidator extends LinValidator {
+  constructor() {
+    super();
+    this.type = [
+      new Rule('isNumeric', '必须是数字')
+    ];
+    this.typeId = [
+      new Rule('isNumeric', '必须是数字')
+    ];
+    this.index = [
+      new Rule('isNumeric', '必须是数字')
+    ];
+  }
+
+  validateType(value) {
+    const type = value.body.type;
+    if (!(checkTypeIsLegal(CLASSIC_TYPE, type))) {
+      throw new Error('type 不合法');
+    }
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
@@ -166,5 +188,6 @@ module.exports = {
   VerifyTokenValidator,
   ClassicValidator,
   ClassicGetValidator,
-  GetLatestFlowValidator
+  GetLatestFlowValidator,
+  PostLatestFlowValidator
 };

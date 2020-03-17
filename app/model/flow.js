@@ -3,6 +3,8 @@ const {sequelize} = require('../../core/db');
 
 const {Model, Sequelize} = require('sequelize');
 
+const {HttpException} = require('../../core/httpException');
+
 const field = {
   id: {
     type: Sequelize.INTEGER,
@@ -21,9 +23,18 @@ const field = {
 class Flow extends Model {
   static async getLatestFlow() {
     const result = await Flow.findOne({
-      order: ['index', 'DESC']
+      order: [['index', 'DESC']]
     });
     return result;
+  }
+
+  static async postLatestFlow(postData) {
+    try {
+      const result = await Flow.create(postData);
+      return result;
+    } catch (e) {
+      throw new HttpException();
+    }
   }
 }
 

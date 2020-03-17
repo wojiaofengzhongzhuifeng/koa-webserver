@@ -36,7 +36,6 @@ class Movie extends Model {
 
 class Music extends Model {
   static addData(postData) {
-    console.log('postData', postData);
     Music.create(postData);
   }
 
