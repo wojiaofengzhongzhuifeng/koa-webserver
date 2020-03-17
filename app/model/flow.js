@@ -19,6 +19,12 @@ const field = {
 };
 
 class Flow extends Model {
+  static async getLatestFlow() {
+    const result = await Flow.findOne({
+      order: ['index', 'DESC']
+    });
+    return result;
+  }
 }
 
 Flow.init(field, {sequelize, tableName: 'Flow'});

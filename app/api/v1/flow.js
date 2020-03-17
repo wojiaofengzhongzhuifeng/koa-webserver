@@ -3,14 +3,17 @@ const router = new Router({
   prefix: '/v1/flow'
 });
 const {Unauthorized, NoExist} = require('../../../core/httpException');
-const {ClassicValidator, ClassicGetValidator} = require('../../../app/validators/validator');
+const {GetLatestFlowValidator} = require('../../../app/validators/validator');
 const {Auth, auth} = require('../../../middleWare/auth');
 const {CLASSIC_TYPE} = require('../../lib/enum');
 const {Unhandle} = require('../../../core/httpException');
-const {Movie, Music, Sentence} = require('../../model/classic');
+const {Flow} = require('../../model/flow');
 const {throwSuccess} = require('../../lib/help');
 
-router.get('/', new Auth().method, async (ctx, next) => {
+router.get('/latest', new Auth().method, async (ctx, next) => {
+  const v = await new GetLatestFlowValidator().validate(ctx);
+  const result = await Flow.getLatestFlow();
+  console.log('result', result);
   ctx.body = {
     data: 'success get data'
   };

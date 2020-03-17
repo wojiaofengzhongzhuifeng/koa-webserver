@@ -153,11 +153,18 @@ class ClassicGetValidator extends LinValidator {
   }
 }
 
+class GetLatestFlowValidator extends LinValidator {
+  constructor() {
+    super();
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
   TokenValidator,
   VerifyTokenValidator,
   ClassicValidator,
-  ClassicGetValidator
+  ClassicGetValidator,
+  GetLatestFlowValidator
 };
