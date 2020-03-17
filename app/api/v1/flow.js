@@ -9,10 +9,11 @@ const {CLASSIC_TYPE} = require('../../lib/enum');
 const {Unhandle} = require('../../../core/httpException');
 const {Flow} = require('../../model/flow');
 const {throwSuccess} = require('../../lib/help');
+const {Art} = require('../../model/art');
 
 router.get('/latest', new Auth().method, async (ctx, next) => {
   const v = await new GetLatestFlowValidator().validate(ctx);
-  const result = await Flow.getLatestFlow();
+  const result = await Art.getLatestArt();
   throwSuccess({
     message: '获取数据成功',
     data: result,
