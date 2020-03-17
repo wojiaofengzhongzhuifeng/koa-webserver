@@ -1,6 +1,9 @@
 const {HttpException} = require('../core/httpException');
 async function catchError(ctx, next) {
   try {
+    if (ctx.status === 404) {
+      throw new global.httpException.NoFound();
+    }
     await next();
   } catch (e) {
     // 主动抛出的错误, 属于已知错误

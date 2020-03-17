@@ -111,6 +111,25 @@ class NoExist extends HttpException {
   }
 }
 
+class NoFound extends HttpException {
+  constructor(obj) {
+    super();
+    if (!obj) {
+      this.httpCode = 404;
+      this.message = '请求路径错误';
+      this.errorCode = -1;
+      this.data = null;
+    } else {
+      const {message, errorCode, data} = obj;
+      this.httpCode = 404;
+      this.message = message || '请求路径错误';
+      this.errorCode = errorCode || -1;
+      this.data = data;
+    }
+  }
+
+}
+
 module.exports = {
   Unauthorized,
   HttpException,
@@ -119,5 +138,6 @@ module.exports = {
   AuthFailed,
   Forbidden,
   Unhandle,
-  NoExist
+  NoExist,
+  NoFound,
 };
