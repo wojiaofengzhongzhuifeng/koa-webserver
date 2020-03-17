@@ -27,7 +27,7 @@ router.post('/', async (ctx, next) => {
       await handleHavePassword(account, password, ctx);
       break;
     case LOGIN_TYPE.miniProgram:
-      handleMiniProgram(account);
+      await handleMiniProgram(account);
       break;
     default:
       throw new Unhandle();
