@@ -18,6 +18,9 @@ router.post('/', new Auth(7).method, async (ctx, next) => {
   const classicData = v.get('body.data');
 
   handleAddClassicData(classicData);
+  throwSuccess({
+    message: '写入数据正常'
+  });
 });
 
 router.get('/:type/:id', new Auth(7).method, async (ctx, next) => {
