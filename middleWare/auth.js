@@ -31,6 +31,10 @@ class Auth {
       }
       // 将 token 传入 verifyToken 函数, 如果 token 出现错误, 抛出错误, 错误信息是 「token 错误」
       try {
+        ctx.auth = {
+          uid: verifyToken(token).uid,
+          scope: verifyToken(token).scope
+        };
         scopeData = verifyToken(token).scope;
       } catch (e) {
         throw new Forbidden({
