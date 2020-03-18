@@ -211,6 +211,19 @@ class PostLatestFlowValidator extends LinValidator {
   }
 }
 
+// 点赞功能校验器
+class PostLikedValidator extends LinValidator {
+  constructor(props) {
+    super(props);
+    this.type = [
+      new Rule('isLength', '必填', {min: 0})
+    ];
+    this.typeId = [
+      new Rule('isLength', '必填', {min: 0})
+    ];
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
@@ -219,5 +232,6 @@ module.exports = {
   ClassicValidator,
   ClassicGetValidator,
   GetLatestFlowValidator,
-  PostLatestFlowValidator
+  PostLatestFlowValidator,
+  PostLikedValidator
 };

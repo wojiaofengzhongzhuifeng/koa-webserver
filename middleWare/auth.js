@@ -36,6 +36,7 @@ class Auth {
           scope: verifyToken(token).scope
         };
         scopeData = verifyToken(token).scope;
+        console.log('scopeData', verifyToken(token));
       } catch (e) {
         throw new Forbidden({
           message: '传入 token 错误'
