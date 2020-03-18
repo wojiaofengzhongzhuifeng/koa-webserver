@@ -124,11 +124,41 @@ class VerifyTokenValidator extends LinValidator {
 class ClassicValidator extends LinValidator {
   constructor() {
     super();
+    this.content = [
+      new Rule('isLength', '必填', {min: 0})
+    ];
+    this.title = [
+      new Rule('isLength', '必填', {min: 0})
+    ];
+    this.picUrl = [
+      new Rule('isLength', '必填', {min: 0})
+    ];
+    this.publishDate = [
+      new Rule('isLength', '必填', {min: 0})
+    ];
+    this.type = [
+      new Rule('isLength', '必填', {min: 0})
+    ];
+  }
+
+  validatePublishDate(value) {
+    const publishDate = value.body.publishDate;
+    if (typeof publishDate !== 'number') {
+      throw new Error('publishDate 必须是数字类型');
+    }
   }
 
   validateData(value) {
-    if (!value.body.data) {
+    if (!value.body) {
       throw new Error('data必传');
+    }
+  }
+
+  validateType(value) {
+    const type = value.body.type;
+
+    if (!(checkTypeIsLegal(CLASSIC_TYPE, type))) {
+      throw new Error('type 不合法');
     }
   }
 }

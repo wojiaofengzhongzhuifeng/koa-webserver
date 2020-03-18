@@ -15,7 +15,7 @@ router.post('/', new Auth(7).method, async (ctx, next) => {
   // 校验参数
   const v = await new ClassicValidator().validate(ctx);
 
-  const classicData = v.get('body.data');
+  const classicData = v.get('body');
 
   handleAddClassicData(classicData);
   throwSuccess({
@@ -33,24 +33,21 @@ router.get('/:type/:id', new Auth(7).method, async (ctx, next) => {
 });
 
 function handleAddClassicData(classicData) {
-  classicData.forEach((postData) => {
-    let type = Number(postData.type);
-    let dbData = postData;
-
-    switch (type) {
-      case CLASSIC_TYPE.movie:
-        addMovie(dbData);
-        break;
-      case CLASSIC_TYPE.music:
-        addMusic(dbData);
-        break;
-      case CLASSIC_TYPE.sentence:
-        addSentence(dbData);
-        break;
-      default:
-        throw new Unhandle();
-    }
-  });
+  const type = Number(classicData.type);
+  console.log(type);
+  switch (type) {
+    case CLASSIC_TYPE.movie:
+      addMovie(classicData);
+      break;
+    case CLASSIC_TYPE.music:
+      addMusic(classicData);
+      break;
+    case CLASSIC_TYPE.sentence:
+      addSentence(classicData);
+      break;
+    default:
+      throw new Unhandle();
+  }
 }
 
 async function handleGetTypeData(type, id) {
