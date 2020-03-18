@@ -20,8 +20,9 @@ const baseField = {
 };
 
 class Movie extends Model {
-  static addData(postData) {
-    Movie.create(postData);
+  static async addData(postData) {
+    const result = await Movie.create(postData);
+    return result;
   }
 
   static async getData(id) {

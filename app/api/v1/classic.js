@@ -17,10 +17,15 @@ router.post('/', new Auth(7).method, async (ctx, next) => {
 
   const classicData = v.get('body');
 
-  handleAddClassicData(classicData);
-  throwSuccess({
-    message: '写入数据正常'
-  });
+  const result = await handleAddClassicData(classicData);
+
+  if (result) {
+    throwSuccess({
+      message: '写入数据正常',
+      data: result
+    });
+  }
+
 });
 
 router.get('/:type/:id', new Auth(7).method, async (ctx, next) => {
@@ -32,22 +37,24 @@ router.get('/:type/:id', new Auth(7).method, async (ctx, next) => {
   await handleGetTypeData(type, id);
 });
 
-function handleAddClassicData(classicData) {
+async function handleAddClassicData(classicData) {
   const type = Number(classicData.type);
+  let result;
   console.log(type);
   switch (type) {
     case CLASSIC_TYPE.movie:
-      addMovie(classicData);
+      result = await addMovie(classicData);
       break;
     case CLASSIC_TYPE.music:
-      addMusic(classicData);
+      result = await addMusic(classicData);
       break;
     case CLASSIC_TYPE.sentence:
-      addSentence(classicData);
+      result = await addSentence(classicData);
       break;
     default:
       throw new Unhandle();
   }
+  return result;
 }
 
 async function handleGetTypeData(type, id) {
@@ -91,16 +98,19 @@ async function handleGetTypeData(type, id) {
   }
 }
 
-function addMovie(dbData) {
-  Movie.addData({...dbData, test: 123321});
+async function addMovie(dbData) {
+  const result = await Movie.addData({...dbData, test: 123321});
+  return result;
 }
 
-function addMusic(dbData) {
-  Music.addData({...dbData, test: 123321});
+async function addMusic(dbData) {
+  const result = await Music.addData({...dbData, test: 123321});
+  return result;
 }
 
-function addSentence(dbData) {
-  Sentence.addData({...dbData, test: 123321});
+async function addSentence(dbData) {
+  const result = await Sentence.addData({...dbData, test: 123321});
+  return result;
 }
 
 module.exports = router;
